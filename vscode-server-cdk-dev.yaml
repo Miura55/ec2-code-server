@@ -168,6 +168,9 @@ Resources:
           # Install CDK
           npm install -g aws-cdk
           
+          # Install Yarn
+          npm install -g yarn
+          
           # Install Git
           yum install -y git
           
