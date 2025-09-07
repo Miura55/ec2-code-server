@@ -57,7 +57,8 @@ deploy_stack() {
     local instance_type=${1:-t3.medium}
     local ami_id=${2:-ami-07faa35bbd2230d90}
     local key_pair_name=$3
-    local allowed_cidr=${4:-0.0.0.0/0}
+    local vscode_password=$4
+    local allowed_cidr=${5:-0.0.0.0/0}
     
     print_info "Deploying CloudFormation stack: $STACK_NAME"
     
@@ -68,6 +69,7 @@ deploy_stack() {
             InstanceType=$instance_type \
             AmiId=$ami_id \
             KeyPairName=$key_pair_name \
+            VSCodeServerPassword=$vscode_password \
             AllowedCIDR=$allowed_cidr \
         --capabilities CAPABILITY_IAM \
         --region $REGION
@@ -150,10 +152,14 @@ case "${1:-deploy}" in
         read -p "AMI ID (ami-07faa35bbd2230d90): " ami_id
         ami_id=${ami_id:-ami-07faa35bbd2230d90}
         
+        read -s -p "VSCode Server password (vscode-password): " vscode_password
+        echo
+        vscode_password=${vscode_password:-vscode-password}
+        
         read -p "Allowed CIDR (0.0.0.0/0): " allowed_cidr
         allowed_cidr=${allowed_cidr:-0.0.0.0/0}
         
-        deploy_stack "$instance_type" "$ami_id" "$key_pair_name" "$allowed_cidr"
+        deploy_stack "$instance_type" "$ami_id" "$key_pair_name" "$vscode_password" "$allowed_cidr"
         ;;
     
     "status")

@@ -20,6 +20,13 @@ Parameters:
     Type: AWS::EC2::KeyPair::KeyName
     Description: EC2 Key Pair for SSH access
 
+  VSCodeServerPassword:
+    Type: String
+    Default: vscode-password
+    Description: Password for VSCode Server
+    MinLength: 8
+    NoEcho: true
+
   AllowedCIDR:
     Type: String
     Default: 0.0.0.0/0
@@ -186,7 +193,7 @@ Resources:
           cat > /home/ec2-user/.config/code-server/config.yaml << EOF
           bind-addr: 0.0.0.0:8080
           auth: password
-          password: ${AWS::StackName}-vscode
+          password: ${VSCodeServerPassword}
           cert: false
           disable-telemetry: true
           EOF
@@ -248,7 +255,7 @@ Outputs:
     
   VSCodeServerPassword:
     Description: Password for VSCode Server
-    Value: !Sub '${AWS::StackName}-vscode'
+    Value: !Ref VSCodeServerPassword
     
   SSHCommand:
     Description: SSH command to connect to the instance

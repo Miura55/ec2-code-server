@@ -15,6 +15,13 @@ EC2上にCDK開発環境を構築したVSCode Serverを立てるCloudFormation�
 ./deploy.sh
 ```
 
+デプロイ時に以下の設定を入力：
+- キーペア名（SSHアクセス用）
+- インスタンスタイプ（デフォルト: t3.medium）
+- AMI ID（デフォルト: ami-07faa35bbd2230d90）
+- VSCode Serverパスワード（デフォルト: vscode-password）
+- アクセス許可CIDR（デフォルト: 0.0.0.0/0）
+
 ### 2. その他のコマンド
 ```bash
 # スタック状態確認
@@ -32,7 +39,7 @@ EC2上にCDK開発環境を構築したVSCode Serverを立てるCloudFormation�
 デプロイ完了後、以下の情報でアクセス可能：
 
 - **VSCode Server**: `http://[PublicIP]:8080`
-- **パスワード**: `[スタック名]-vscode`
+- **パスワード**: デプロイ時に設定したパスワード（デフォルト: `vscode-password`）
 - **SSH**: `ssh -i [キーペア].pem ec2-user@[PublicIP]`
 
 ## インストール済みソフトウェア
