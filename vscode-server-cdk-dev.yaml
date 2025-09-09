@@ -17,8 +17,9 @@ Parameters:
     Description: AMI ID for EC2 instance
 
   KeyPairName:
-    Type: AWS::EC2::KeyPair::KeyName
-    Description: EC2 Key Pair for SSH access
+    Type: String
+    Default: ""
+    Description: EC2 Key Pair for SSH access (optional)
 
   VSCodeServerPassword:
     Type: String
@@ -32,6 +33,9 @@ Parameters:
     Default: 0.0.0.0/0
     Description: CIDR block allowed to access VSCode Server
     AllowedPattern: ^([0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$
+
+Conditions:
+  HasKeyPair: !Not [!Equals [!Ref KeyPairName, ""]]
 
 Resources:
   # VPC and Networking
@@ -145,7 +149,7 @@ Resources:
     Properties:
       ImageId: !Ref AmiId
       InstanceType: !Ref InstanceType
-      KeyName: !Ref KeyPairName
+      KeyName: !If [HasKeyPair, !Ref KeyPairName, !Ref "AWS::NoValue"]
       IamInstanceProfile: !Ref EC2InstanceProfile
       SecurityGroupIds:
         - !Ref VSCodeServerSecurityGroup
@@ -262,7 +266,10 @@ Outputs:
     
   SSHCommand:
     Description: SSH command to connect to the instance
-    Value: !Sub 'ssh -i ${KeyPairName}.pem ec2-user@${VSCodeServerInstance.PublicIp}'
+    Value: !If 
+      - HasKeyPair
+      - !Sub 'ssh -i ${KeyPairName}.pem ec2-user@${VSCodeServerInstance.PublicIp}'
+      - 'No key pair configured - SSH access not available'
     
   InstanceId:
     Description: EC2 Instance ID

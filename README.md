@@ -5,7 +5,7 @@ EC2上にCDK開発環境を構築したVSCode Serverを立てるCloudFormation�
 ## 前提条件
 
 - AWS CLI がインストール・設定済み
-- EC2キーペアが作成済み
+- EC2キーペア（SSH接続が必要な場合のみ）
 - 適切なIAM権限（EC2、VPC、IAM、CloudFormation）
 
 ## デプロイ方法
@@ -16,7 +16,7 @@ EC2上にCDK開発環境を構築したVSCode Serverを立てるCloudFormation�
 ```
 
 デプロイ時に以下の設定を入力：
-- キーペア名（SSHアクセス用）
+- キーペア名（任意、SSHアクセス用）
 - インスタンスタイプ（デフォルト: t3.medium）
 - AMI ID（デフォルト: ami-07faa35bbd2230d90）
 - VSCode Serverパスワード（デフォルト: vscode-password）
@@ -40,7 +40,7 @@ EC2上にCDK開発環境を構築したVSCode Serverを立てるCloudFormation�
 
 - **VSCode Server**: `http://[PublicIP]:8080`
 - **パスワード**: デプロイ時に設定したパスワード（デフォルト: `vscode-password`）
-- **SSH**: `ssh -i [キーペア].pem ec2-user@[PublicIP]`
+- **SSH**: `ssh -i [キーペア].pem ec2-user@[PublicIP]`（キーペア設定時のみ）
 
 ## インストール済みソフトウェア
 

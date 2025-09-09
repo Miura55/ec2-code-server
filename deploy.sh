@@ -132,18 +132,16 @@ case "${1:-deploy}" in
         
         # Get available key pairs
         key_pairs=$(get_key_pairs)
-        if [ -z "$key_pairs" ]; then
-            print_error "No EC2 key pairs found in region $REGION"
-            print_info "Create a key pair first: aws ec2 create-key-pair --key-name my-key --query 'KeyMaterial' --output text > my-key.pem"
-            exit 1
+        if [ -n "$key_pairs" ]; then
+            echo "Available key pairs: $key_pairs"
+        else
+            print_warning "No EC2 key pairs found in region $REGION"
         fi
         
-        echo "Available key pairs: $key_pairs"
-        read -p "Enter key pair name: " key_pair_name
+        read -p "Enter key pair name (optional, press Enter to skip): " key_pair_name
         
         if [ -z "$key_pair_name" ]; then
-            print_error "Key pair name is required"
-            exit 1
+            print_warning "No key pair specified - SSH access will not be available"
         fi
         
         read -p "Instance type (t3.medium): " instance_type
