@@ -162,6 +162,12 @@ Resources:
                   - iam:GetUserPolicy
                   - iam:ListUserPolicies
                   - iam:ListAttachedUserPolicies
+                  - iam:TagRole
+                  - iam:UntagRole
+                  - iam:ListRoleTags
+                  - iam:TagUser
+                  - iam:UntagUser
+                  - iam:ListUserTags
                 Resource: '*'
       Tags:
         - Key: Name
