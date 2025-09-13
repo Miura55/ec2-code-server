@@ -133,6 +133,36 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/PowerUserAccess
+      Policies:
+        - PolicyName: CDKBootstrapPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:CreateRole
+                  - iam:DeleteRole
+                  - iam:GetRole
+                  - iam:PassRole
+                  - iam:AttachRolePolicy
+                  - iam:DetachRolePolicy
+                  - iam:PutRolePolicy
+                  - iam:DeleteRolePolicy
+                  - iam:GetRolePolicy
+                  - iam:CreateUser
+                  - iam:DeleteUser
+                  - iam:GetUser
+                  - iam:CreateAccessKey
+                  - iam:DeleteAccessKey
+                  - iam:ListAccessKeys
+                  - iam:AttachUserPolicy
+                  - iam:DetachUserPolicy
+                  - iam:PutUserPolicy
+                  - iam:DeleteUserPolicy
+                  - iam:GetUserPolicy
+                  - iam:ListUserPolicies
+                  - iam:ListAttachedUserPolicies
+                Resource: '*'
       Tags:
         - Key: Name
           Value: VSCodeServer-Role
@@ -244,12 +274,6 @@ Resources:
           sudo -u ec2-user /usr/bin/code-server --install-extension amazonwebservices.aws-toolkit-vscode
           sudo -u ec2-user /usr/bin/code-server --install-extension ms-python.python
           sudo -u ec2-user /usr/bin/code-server --install-extension ms-vscode.vscode-json
-          
-          # Create sample CDK project
-          sudo -u ec2-user mkdir -p /home/ec2-user/cdk-projects
-          cd /home/ec2-user/cdk-projects
-          sudo -u ec2-user cdk init app --language typescript
-          sudo -u ec2-user npm install
           
       Tags:
         - Key: Name
